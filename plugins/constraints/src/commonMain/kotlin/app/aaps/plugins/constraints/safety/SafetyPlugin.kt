@@ -95,11 +95,6 @@ class SafetyPlugin(
         return value
     }
 
-    override suspend fun isAdvancedFilteringEnabled(value: Constraint<Boolean>): Constraint<Boolean> {
-        if (!persistenceLayer.isAdvancedFilteringSupported()) value.set(false, rh.gs(ConstraintsStrings.smbalwaysdisabled), this)
-        return value
-    }
-
     override fun applyBasalConstraints(absoluteRate: Constraint<Double>, profile: Profile): Constraint<Double> {
         absoluteRate.setIfGreater(0.0, rh.gs(CoreUiStrings.limitingbasalratio, 0.0, rh.gs(CoreUiStrings.itmustbepositivevalue)), this)
         absoluteRate.setIfSmaller(hardLimits.maxBasal(), rh.gs(CoreUiStrings.limitingbasalratio, hardLimits.maxBasal(), rh.gs(ConstraintsStrings.hardlimit)), this)
